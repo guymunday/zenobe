@@ -30,12 +30,13 @@
     "gatsby-plugin-react-svg": "^3.0.0",
     "gatsby-plugin-sharp": "^2.6.38",
     "gatsby-source-filesystem": "^2.3.32",
-    "gatsby-source-wordpress-experimental": "^1.5.3",
+    "gatsby-source-wordpress-experimental": "^2.1.0",
     "gatsby-transformer-sharp": "2.5.16",
     "gatsby-wordpress-experimental-inline-images": "^0.0.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-paginate": "^6.5.0",
+    "react-player": "^2.6.2",
     "yarn": "^1.22.10"
   },
   "devDependencies": {

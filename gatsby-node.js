@@ -1,105 +1,67 @@
-const { resolve } = require(`path`)
-const path = require(`path`)
-const glob = require(`glob`)
-const chunk = require(`lodash/chunk`)
-const { dd } = require(`dumper.js`)
+const _ = require("lodash")
 
-const getTemplates = () => {
-  const sitePath = path.resolve(`./`)
-  return glob.sync(`./src/templates/**/*.js`, { cwd: sitePath })
-}
+// graphql function doesn't throw an error so we have to check to check for the result.errors to throw manually
+const wrapper = (promise) =>
+  promise.then((result) => {
+    if (result.errors) {
+      throw result.errors
+    }
+    return result
+  })
 
-//
-// @todo move this to gatsby-theme-wordpress
-exports.createPages = async ({ actions, graphql, reporter }) => {
-  const templates = getTemplates()
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions
 
-  const {
-    data: {
-      allWpContentNode: { nodes: contentNodes },
-    },
-  } = await graphql(/* GraphQL */ `
-    query ALL_CONTENT_NODES {
-      allWpContentNode(
-        sort: { fields: modifiedGmt, order: DESC }
-        filter: { nodeType: { ne: "MediaItem" } }
-      ) {
-        nodes {
-          nodeType
-          uri
-          id
+  const caseStudyTemplate = require.resolve(
+    "./src/templates/single/casestudy.js"
+  )
+  const newsTemplate = require.resolve("./src/templates/single/news.js")
+
+  const result = await wrapper(
+    graphql(`
+      {
+        allWpCaseStudy {
+          edges {
+            node {
+              title
+              slug
+              id
+            }
+          }
+        }
+        allWpPost {
+          edges {
+            node {
+              title
+              slug
+              id
+            }
+          }
         }
       }
-    }
-  `)
-
-  const contentTypeTemplateDirectory = `./src/templates/single/`
-  const contentTypeTemplates = templates.filter((path) =>
-    path.includes(contentTypeTemplateDirectory)
+    `)
   )
 
-  await Promise.all(
-    contentNodes.map(async (node, i) => {
-      const { nodeType, uri, id } = node
-      // this is a super super basic template hierarchy
-      // this doesn't reflect what our hierarchy will look like.
-      // this is for testing/demo purposes
-      const templatePath = `${contentTypeTemplateDirectory}${nodeType}.js`
+  const caseStudyList = result.data.allWpCaseStudy.edges
+  const newsList = result.data.allWpPost.edges
 
-      const contentTypeTemplate = contentTypeTemplates.find(
-        (path) => path === templatePath
-      )
-
-      if (!contentTypeTemplate) {
-        return
-      }
-
-      await actions.createPage({
-        component: resolve(contentTypeTemplate),
-        path: uri,
-        context: {
-          id,
-          nextPage: (contentNodes[i + 1] || {}).id,
-          previousPage: (contentNodes[i - 1] || {}).id,
-        },
-      })
+  caseStudyList.forEach((edge) => {
+    createPage({
+      path: `/casestudies/${edge.node.slug}`,
+      component: caseStudyTemplate,
+      context: {
+        id: edge.node.id,
+      },
     })
-  )
+  })
 
-  // create the homepage
-  const {
-    data: { allWpPost },
-  } = await graphql(/* GraphQL */ `
-    {
-      allWpPost(sort: { fields: modifiedGmt, order: DESC }) {
-        nodes {
-          uri
-          id
-        }
-      }
-    }
-  `)
-
-  const perPage = 10
-  const chunkedContentNodes = chunk(allWpPost.nodes, perPage)
-
-  await Promise.all(
-    chunkedContentNodes.map(async (nodesChunk, index) => {
-      const firstNode = nodesChunk[0]
-      const page = index + 1
-      const offset = perPage * index
-
-      await actions.createPage({
-        component: resolve(`./src/templates/index.js`),
-        path: page === 1 ? `/blog/` : `/blog/${page}/`,
-        context: {
-          firstId: firstNode.id,
-          page: page,
-          offset: offset,
-          totalPages: chunkedContentNodes.length,
-          perPage,
-        },
-      })
+  newsList.forEach((edge) => {
+    createPage({
+      path: `/news/${edge.node.slug}`,
+      component: newsTemplate,
+      context: {
+        id: edge.node.id,
+      },
     })
-  )
+  })
 }
