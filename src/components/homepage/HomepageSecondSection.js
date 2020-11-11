@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "styled-components"
+import BackgroundVideo from "../BackgroundVideo"
 import ButtonInvert from "../ButtonInvert"
 import Wrapper from "../Wrapper"
 
@@ -13,7 +14,13 @@ const SecondSection = styled.section`
   .inner-flex {
     display: flex;
     p {
-      padding: 20px;
+      padding: 50px 0;
+      :first-child {
+        margin-right: 1rem;
+      }
+      :nth-child(2) {
+        margin-left: 1rem;
+      }
     }
   }
 `
@@ -33,6 +40,7 @@ const HomepageSecondSection = ({ data }) => {
           <p>{homepageHeroData.paragraph1}</p>
           <p>{homepageHeroData.paragraph2}</p>
         </div>
+
         <ButtonInvert text="Find out more" link="" />
       </Wrapper>
     </SecondSection>

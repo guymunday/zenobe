@@ -3,17 +3,22 @@ import { graphql } from "gatsby"
 import Layout from "../../components/layout"
 import SliceZone from "../../components/caseStudies/SliceZone"
 import Img from "gatsby-image"
+import { NewHeroSection } from "./news"
 
 const CaseStudy = ({ data }) => {
   const title = data.page.case_news.heroSection.title
+  const titleFallback = data.page.title
   const heroImage =
     data.page.case_news.heroSection.heroImage.localFile.childImageSharp.fluid
   return (
     <Layout>
-      <section>
-        <div dangerouslySetInnerHTML={{ __html: title }} />
+      <NewHeroSection>
+        <div
+          className="title"
+          dangerouslySetInnerHTML={{ __html: title ? title : titleFallback }}
+        />
         <Img fluid={heroImage} />
-      </section>
+      </NewHeroSection>
       <SliceZone allSlices={data.page.case_news.content} />
     </Layout>
   )
@@ -25,6 +30,7 @@ export const query = graphql`
   query casestudy($id: String!) {
     page: wpCaseStudy(id: { eq: $id }) {
       id
+      title
       case_news {
         content {
           ... on WpCase_Study_CaseNews_Content_Copy {

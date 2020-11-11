@@ -3,6 +3,27 @@ import { graphql } from "gatsby"
 import Layout from "../../components/layout"
 import SliceZoneNews from "../../components/caseStudies/SliceZoneNews"
 import Img from "gatsby-image"
+import styled from "styled-components"
+
+export const NewHeroSection = styled.section`
+  display: flex;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 100px 0 0 0;
+  .gatsby-image-wrapper {
+    width: 50%;
+    padding: 20px;
+    object-fit: cover;
+  }
+  .title {
+    width: 50%;
+    padding: 20px;
+    font-family: Syne, sans-serif;
+    font-size: 3rem;
+    line-height: 1.15;
+  }
+`
 
 const News = ({ data }) => {
   console.log(data.page.case_news.heroSection.title)
@@ -12,10 +33,10 @@ const News = ({ data }) => {
 
   return (
     <Layout>
-      <section>
-        <div dangerouslySetInnerHTML={{ __html: title }} />
+      <NewHeroSection>
+        <div className="title" dangerouslySetInnerHTML={{ __html: title }} />
         <Img fluid={heroImage} />
-      </section>
+      </NewHeroSection>
       <SliceZoneNews allSlices={data.page.case_news.content} />
     </Layout>
   )

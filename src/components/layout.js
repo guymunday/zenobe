@@ -1,5 +1,6 @@
 import React from "react"
 import Header from "./header"
+import HeaderMain from "./headerMain"
 import Footer from "./Footer"
 import { createGlobalStyle } from "styled-components"
 import reset from "../styles/reset"
@@ -39,7 +40,11 @@ const GlobalStyle = createGlobalStyle`
 const Layout = ({ children }) => (
   <div style={{ position: "relative" }}>
     <GlobalStyle />
-    <Header />
+    {typeof window !== "undefined" && window.location.pathname === "/" ? (
+      <Header />
+    ) : (
+      <HeaderMain />
+    )}
     <main>{children}</main>
     <Footer />
   </div>
