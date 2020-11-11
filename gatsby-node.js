@@ -23,9 +23,9 @@ exports.createPages = async ({ graphql, actions }) => {
         allWpCaseStudy {
           edges {
             node {
-              title
-              slug
               id
+              slug
+              title
             }
           }
         }

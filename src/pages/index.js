@@ -1,5 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
+import Layout from "../components/layout"
 import HomepageHero from "../components/homepage/HomepageHero"
 import HomepageSecondSection from "../components/homepage/HomepageSecondSection"
 import HomepageCasestudySection from "../components/homepage/HomepageCasestudySection"
@@ -12,14 +13,16 @@ import EmailSignup from "../components/EmailSignup"
 const Homepage = ({ data }) => {
   return (
     <>
-      <HomepageHero data={data} />
-      <HomepageSecondSection data={data} />
-      <HomepageCasestudySection />
-      <HomepageTechnologiesSection data={data} />
-      <HomepageAboutSection />
-      <EventAnnouncment data={data} />
-      <NewsThumbnails />
-      <EmailSignup />
+      <Layout>
+        <HomepageHero data={data} />
+        <HomepageSecondSection data={data} />
+        <HomepageCasestudySection />
+        <HomepageTechnologiesSection data={data} />
+        <HomepageAboutSection />
+        <EventAnnouncment data={data} />
+        <NewsThumbnails />
+        <EmailSignup />
+      </Layout>
     </>
   )
 }
@@ -56,13 +59,8 @@ export const query = graphql`
             image {
               localFile {
                 childImageSharp {
-                  fluid {
-                    base64
-                    tracedSVG
-                    srcWebp
-                    srcSetWebp
-                    originalImg
-                    originalName
+                  fluid(maxWidth: 1200, quality: 90) {
+                    ...GatsbyImageSharpFluid_withWebp
                   }
                 }
               }

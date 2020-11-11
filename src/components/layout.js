@@ -1,20 +1,47 @@
 import React from "react"
-import { Box, Grid } from "@chakra-ui/core"
 import Header from "./header"
-import Menu from "./menu"
+import Footer from "./Footer"
+import { createGlobalStyle } from "styled-components"
+import reset from "../styles/reset"
 
-import "../assets/style.css"
+const GlobalStyle = createGlobalStyle`
+  ${reset}
+  html {
+    --black: #000000;
+    --white: #ffffff;
+    --electric: #32DBFF;
+    --glow: #F86906;
+    transition: 0.2s ease all;
+  }
+  body {
+    font-family: Work sans, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 16px;
+
+  }
+  h1, h2, h3 {
+    font-family: Syne, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+  }
+  h1 {
+    font-size: 3rem;
+    line-height: 1.1;
+  }
+  .glow {
+    color: var(--glow);
+  }
+`
+
+// import "../assets/style.css"
 
 const Layout = ({ children }) => (
-  <div>
-    <Grid style={{ margin: `0 auto` }} maxW="90%" w={900} alignSelf="center">
-      <Box mb={10} mt={20}>
-        <Header />
-      </Box>
-      <Menu />
-
-      <Box mb={100}>{children}</Box>
-    </Grid>
+  <div style={{ position: "relative" }}>
+    <GlobalStyle />
+    <Header />
+    <main>{children}</main>
+    <Footer />
   </div>
 )
 

@@ -9,7 +9,24 @@ require("dotenv").config({
 
 module.exports = {
   plugins: [
+    {
+      resolve: `gatsby-plugin-google-fonts-v2`,
+      options: {
+        fonts: [
+          {
+            family: "Syne",
+            weights: ["400"],
+          },
+          {
+            family: "Work Sans",
+            variable: true,
+            weights: ["400..700", "400..700"],
+          },
+        ],
+      },
+    },
     `gatsby-plugin-sharp`,
+    `gatsby-transformer-sharp`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -42,8 +59,6 @@ module.exports = {
         },
       },
     },
-    `gatsby-plugin-chakra-ui`,
-    `gatsby-transformer-sharp`,
     {
       resolve: "gatsby-plugin-react-svg",
       options: {

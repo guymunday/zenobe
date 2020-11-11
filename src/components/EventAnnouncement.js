@@ -10,7 +10,6 @@ const EventAnnouncment = ({ data }) => {
     <>
       <p>Hello</p>
       <Img
-        style={{ width: 600, height: 800 }}
         fluid={
           data.allWpAcfPage.nodes[0].homepage.eventLaunchSection.image.localFile
             .childImageSharp.fluid
