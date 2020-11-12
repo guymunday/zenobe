@@ -3,6 +3,14 @@ import { Link, useStaticQuery, graphql } from "gatsby"
 import { normalizePath } from "../utils/get-url-path"
 import styled from "styled-components"
 
+const Nav = styled.nav`
+  a {
+    @media only screen and (max-width: 800px) {
+      display: none;
+    }
+  }
+`
+
 const Hamburger = styled.button`
   width: 25px;
   height: 15px;
@@ -54,7 +62,7 @@ export default () => {
   `)
 
   return !!wpMenu && !!wpMenu.menuItems && !!wpMenu.menuItems.nodes ? (
-    <nav>
+    <Nav>
       {wpMenu.menuItems.nodes.map((menuItem, i) => {
         if (menuItem.parentId) {
           return null
@@ -65,7 +73,7 @@ export default () => {
         return (
           <Link
             key={i + menuItem.url}
-            style={{ display: `block` }}
+            // style={{ display: `block` }}
             to={normalizePath(path)}
           >
             {menuItem.label}
@@ -77,6 +85,6 @@ export default () => {
         <span></span>
         <span></span>
       </Hamburger>
-    </nav>
+    </Nav>
   ) : null
 }

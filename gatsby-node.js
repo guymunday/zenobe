@@ -47,7 +47,7 @@ exports.createPages = async ({ graphql, actions }) => {
 
   caseStudyList.forEach((edge) => {
     createPage({
-      path: `/casestudies/${edge.node.slug}`,
+      path: `/case-studies/${edge.node.slug}`,
       component: caseStudyTemplate,
       context: {
         id: edge.node.id,

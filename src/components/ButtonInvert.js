@@ -18,7 +18,8 @@ const ButtonStyles = styled.button`
     background: #000;
     color: var(--glow);
   }
-  .glow {
+  ::before {
+    content: "+";
     margin-right: 10px;
     transform: scale(1.2);
   }
@@ -27,9 +28,7 @@ const ButtonStyles = styled.button`
 const ButtonInvert = ({ link, text }) => {
   return (
     <Link to={link}>
-      <ButtonStyles>
-        <span className="glow">+</span> {text}
-      </ButtonStyles>
+      <ButtonStyles>{text}</ButtonStyles>
     </Link>
   )
 }

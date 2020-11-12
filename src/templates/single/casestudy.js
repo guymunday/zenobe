@@ -1,6 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
-import Layout from "../../components/layout"
+import Layout from "../../components/Layout"
 import SliceZone from "../../components/caseStudies/SliceZone"
 import Img from "gatsby-image"
 import { NewHeroSection } from "./news"

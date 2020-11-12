@@ -1,5 +1,5 @@
 import React from "react"
-import Menu from "./menu"
+import Menu from "./Menu"
 import Logo from "./Logo"
 import styled from "styled-components"
 import { Link } from "gatsby"

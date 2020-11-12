@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react"
-
+import React, { useState } from "react"
 import styled from "styled-components"
 import BackgroundVideo from "../BackgroundVideo"
 import Button from "../Button"
@@ -15,12 +14,24 @@ const HeroSection = styled.section`
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 100px 0;
+    padding: 160px 0;
     justify-content: center;
     position: relative;
+    @media only screen and (max-width: 1024px) {
+      padding: 120px 0;
+    }
+    @media only screen and (max-width: 768px) {
+      padding: 100px 0;
+    }
+    @media only screen and (max-width: 600px) {
+      padding: 80px 0;
+    }
     h1 {
       max-width: 530px;
       font-size: 2.5rem;
+      @media only screen and (max-width: 600px) {
+        font-size: 2rem;
+      }
     }
     nav {
       display: flex;
@@ -46,7 +57,6 @@ const HomepageHero = ({ data }) => {
     <>
       <HeroSection>
         <BackgroundVideo
-          
           videoSource={homepageHeroData.commercialIndustrialVideo}
         />
         {/* <div>{homepageHeroData.commercialIndustrialVideo}</div>

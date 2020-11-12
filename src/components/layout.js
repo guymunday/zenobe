@@ -1,6 +1,6 @@
 import React from "react"
-import Header from "./header"
-import HeaderMain from "./headerMain"
+import Header from "./Header"
+import HeaderMain from "./HeaderMain"
 import Footer from "./Footer"
 import { createGlobalStyle } from "styled-components"
 import reset from "../styles/reset"
@@ -25,22 +25,28 @@ const GlobalStyle = createGlobalStyle`
     font-family: Syne, sans-serif;
     font-weight: 400;
     font-style: normal;
+    line-height: 1.15;
   }
   h1 {
     font-size: 3rem;
-    line-height: 1.1;
+    
   }
   .glow {
     color: var(--glow);
   }
+  a {
+    transition: 0.3s ease;
+    text-decoration: none;
+    color: #000;
+  }
 `
-
-// import "../assets/style.css"
 
 const Layout = ({ children }) => (
   <div style={{ position: "relative" }}>
     <GlobalStyle />
-    {typeof window !== "undefined" && window.location.pathname === "/" ? (
+    {(typeof window !== "undefined" &&
+      window.location.pathname === "/about/") ||
+    (typeof window !== "undefined" && window.location.pathname === "/") ? (
       <Header />
     ) : (
       <HeaderMain />

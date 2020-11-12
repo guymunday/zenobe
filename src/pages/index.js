@@ -1,6 +1,6 @@
 import React from "react"
 import { graphql } from "gatsby"
-import Layout from "../components/layout"
+import Layout from "../components/Layout"
 import HomepageHero from "../components/homepage/HomepageHero"
 import HomepageSecondSection from "../components/homepage/HomepageSecondSection"
 import HomepageCasestudySection from "../components/homepage/HomepageCasestudySection"
@@ -68,6 +68,21 @@ export const query = graphql`
             link
             paragraph
             sectionTitle
+          }
+        }
+      }
+    }
+    page: allWpAcfPage(filter: { id: { eq: "cG9zdDoxNDI=" } }) {
+      nodes {
+        about {
+          aboutVideo
+          ourStory
+          ourTeam
+        }
+        hero_section {
+          heroSection {
+            backgroundVideo
+            introParagraph
           }
         }
       }

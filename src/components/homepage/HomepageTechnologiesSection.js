@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "styled-components"
-import Wrapper from "../Wrapper"
 import BackgroundVideo from "../../components/BackgroundVideo"
 import Button from "../Button"
 
@@ -10,24 +9,46 @@ const TechSection = styled.section`
   position: relative;
   display: flex;
   padding: 100px 50px 100px 0;
+  @media only screen and (max-width: 768px) {
+    padding: 20px 0 30px 0;
+    flex-direction: column;
+  }
   .video-container {
     position: relative;
     width: 50%;
-    height: 500px;
+    min-height: 500px;
     z-index: 2;
+    @media only screen and (max-width: 768px) {
+      order: 2;
+      width: 100%;
+      margin-left: 30px;
+    }
   }
   .copy-container {
     width: 50%;
     padding: 50px;
-    max-width: 500px;
+    max-width: 675px;
+    @media only screen and (max-width: 768px) {
+      order: 1;
+      width: 100%;
+      padding: 30px;
+    }
     h2 {
       color: var(--white);
       font-size: 1.5rem;
+      margin-bottom: 10px;
+      @media only screen and (max-width: 768px) {
+        display: none;
+      }
     }
     h3 {
       font-size: 3rem;
+      @media only screen and (max-width: 768px) {
+        font-size: 2rem;
+      }
     }
     p {
+      margin: 30px 0;
     }
   }
 `
@@ -38,7 +59,7 @@ const HomepageTechnologiesSection = ({ data }) => {
   return (
     <TechSection>
       <div className="video-container">
-        <BackgroundVideo videoSource="https://player.vimeo.com/video/153950600?background=1" />
+        <BackgroundVideo videoSource={techSection.video} />
       </div>
       <div className="copy-container">
         <h2>Technologies</h2>

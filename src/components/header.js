@@ -1,5 +1,5 @@
 import React from "react"
-import Menu from "./menu"
+import Menu from "./Menu"
 import Logo from "./Logo"
 import styled from "styled-components"
 import { Link } from "gatsby"
@@ -7,11 +7,16 @@ import { Link } from "gatsby"
 const HeaderContainer = styled.header`
   display: flex;
   width: 100%;
-  padding: 15px;
+  padding: 40px 15px;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 9;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 1),
+    rgba(0, 0, 0, 0)
+  );
   a {
     div.logo {
       svg {

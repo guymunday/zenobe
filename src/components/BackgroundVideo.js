@@ -35,13 +35,14 @@ const BackgroundVidStyles = styled.div`
 const BackgroundVideo = ({ videoSource }) => {
   return (
     <BackgroundVidStyles>
-      <div class="vimeo-wrapper">
+      <div className="vimeo-wrapper">
         <iframe
           src={videoSource}
           frameborder="0"
           muted
           loop
           allow="autoplay"
+          title={videoSource}
         ></iframe>
       </div>
     </BackgroundVidStyles>
