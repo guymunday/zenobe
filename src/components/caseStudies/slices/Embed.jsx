@@ -6,7 +6,7 @@ const Content = styled.div`
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
-  padding-top: 56.25%;
+  padding-top: 56.25vh;
   background: var(--black);
   color: white;
   position: relative;

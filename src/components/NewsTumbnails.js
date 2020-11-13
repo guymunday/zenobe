@@ -9,9 +9,9 @@ import "slick-carousel/slick/slick-theme.css"
 
 const NewsSection = styled.section`
   width: 100%;
-  max-width: 1300px;
+  max-width: 1400px;
   margin: auto;
-  padding: 0 50px 50px 50px;
+  padding: 0 30px 50px 30px;
 `
 const SliderThumb = styled.div`
   padding: 0 20px;

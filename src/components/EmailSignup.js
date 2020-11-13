@@ -65,6 +65,10 @@ const EmailBanner = styled.section`
   }
 `
 
+function handleForm(event) {
+  event.preventDefault()
+}
+
 const EmailSignup = () => {
   return (
     <EmailBanner>
@@ -77,7 +81,12 @@ const EmailSignup = () => {
         </p>
         <form>
           <input type="email" className="email" size="35" placeholder="Email" />
-          <input type="submit" value="Sign up" className="submit" />
+          <input
+            type="submit"
+            value="Sign up"
+            className="submit"
+            onClick={handleForm}
+          />
         </form>
       </div>
     </EmailBanner>

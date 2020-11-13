@@ -7,7 +7,7 @@ import { Link } from "gatsby"
 const HeaderContainer = styled.header`
   display: flex;
   width: 100%;
-  padding: 40px 15px;
+  padding: 40px 20px 80px 20px;
   position: absolute;
   top: 0;
   left: 0;

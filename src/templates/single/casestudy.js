@@ -1,25 +1,37 @@
 import React from "react"
 import { graphql } from "gatsby"
 import Layout from "../../components/Layout"
-import SliceZone from "../../components/caseStudies/SliceZone"
 import Img from "gatsby-image"
+import styled from "styled-components"
 import { NewHeroSection } from "./news"
+import CaseStudyMain from "../../components/caseStudies/CaseStudyMain"
+
+const CaseStudyWrapper = styled.div`
+  background: var(--black);
+  color: var(--white);
+`
 
 const CaseStudy = ({ data }) => {
-  const title = data.page.case_news.heroSection.title
+  const title = data.page.caseStudy.heroSection.title
   const titleFallback = data.page.title
-  const heroImage =
-    data.page.case_news.heroSection.heroImage.localFile.childImageSharp.fluid
   return (
     <Layout>
-      <NewHeroSection>
-        <div
-          className="title"
-          dangerouslySetInnerHTML={{ __html: title ? title : titleFallback }}
-        />
-        <Img fluid={heroImage} />
-      </NewHeroSection>
-      <SliceZone allSlices={data.page.case_news.content} />
+      <CaseStudyWrapper>
+        <NewHeroSection>
+          <div
+            className="title"
+            dangerouslySetInnerHTML={{ __html: title ? title : titleFallback }}
+          />
+          <Img
+            fluid={
+              data.page.caseStudy.heroSection.heroImage.localFile
+                .childImageSharp.fluid
+            }
+            alt={title}
+          />
+        </NewHeroSection>
+        <CaseStudyMain data={data} />
+      </CaseStudyWrapper>
     </Layout>
   )
 }
@@ -31,31 +43,10 @@ export const query = graphql`
     page: wpCaseStudy(id: { eq: $id }) {
       id
       title
-      case_news {
-        content {
-          ... on WpCase_Study_CaseNews_Content_Copy {
-            copy
-            fieldGroupName
-          }
-          ... on WpCase_Study_CaseNews_Content_Image {
-            fieldGroupName
-            image {
-              localFile {
-                childImageSharp {
-                  fluid(maxWidth: 1200, quality: 90) {
-                    ...GatsbyImageSharpFluid_withWebp
-                  }
-                }
-              }
-            }
-          }
-          ... on WpCase_Study_CaseNews_Content_Video {
-            fieldGroupName
-            video
-          }
-        }
+      caseStudy {
+        context
+        approach
         heroSection {
-          title
           heroImage {
             localFile {
               childImageSharp {
@@ -64,6 +55,33 @@ export const query = graphql`
                 }
               }
             }
+          }
+          title
+        }
+        images {
+          image1 {
+            localFile {
+              childImageSharp {
+                fluid(maxWidth: 1200, quality: 90) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
+          }
+          image2 {
+            localFile {
+              childImageSharp {
+                fluid(maxWidth: 1200, quality: 90) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
+          }
+        }
+        inNumbers {
+          stat {
+            information
+            number
           }
         }
       }

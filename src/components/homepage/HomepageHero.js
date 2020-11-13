@@ -14,14 +14,14 @@ const HeroSection = styled.section`
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 160px 0;
+    padding: 140px 0;
     justify-content: center;
     position: relative;
     @media only screen and (max-width: 1024px) {
-      padding: 120px 0;
+      padding: 110px 0;
     }
     @media only screen and (max-width: 768px) {
-      padding: 100px 0;
+      padding: 90px 0;
     }
     @media only screen and (max-width: 600px) {
       padding: 80px 0;
@@ -48,10 +48,7 @@ const HomepageHero = ({ data }) => {
   const [videoOne, setVideoOne] = useState(false)
 
   const homepageHeroData = data.allWpAcfPage.nodes[0].homepage.homepageHero
-
   const heading = homepageHeroData.homepageHeroCopy
-
-  console.log(homepageHeroData)
 
   return (
     <>
@@ -71,12 +68,14 @@ const HomepageHero = ({ data }) => {
                 link="/electric-vehicles"
                 text="Electric Vehicles"
               />
-              {console.log(videoOne)}
               <Button
-                link="/electric-vehicles"
+                link="/commercial-and-industrial"
                 text="Commercial & Industrial"
               />
-              <Button link="/electric-vehicles" text="Network Infrastructure" />
+              <Button
+                link="/network-infrastructure"
+                text="Network Infrastructure"
+              />
             </nav>
           </Wrapper>
         </div>

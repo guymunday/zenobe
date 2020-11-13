@@ -26,6 +26,13 @@ const GlobalStyle = createGlobalStyle`
     font-weight: 400;
     font-style: normal;
     line-height: 1.15;
+    strong {
+    font-family: Syne, sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 1.15;
+    color: var(--glow);
+    }
   }
   h1 {
     font-size: 3rem;

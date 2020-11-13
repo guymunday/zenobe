@@ -11,17 +11,33 @@ export const NewHeroSection = styled.section`
   max-width: 1000px;
   margin: 0 auto;
   padding: 100px 0 0 0;
+  @media only screen and (max-width: 768px) {
+    flex-direction: column;
+    padding: 0;
+  }
   .gatsby-image-wrapper {
     width: 50%;
     padding: 20px;
     object-fit: cover;
+    @media only screen and (max-width: 768px) {
+      width: 100%;
+      order: 1;
+    }
   }
   .title {
     width: 50%;
     padding: 20px;
     font-family: Syne, sans-serif;
-    font-size: 3rem;
     line-height: 1.15;
+    @media only screen and (max-width: 768px) {
+      width: 100%;
+      order: 2;
+    }
+    h1 {
+      @media only screen and (max-width: 1024px) {
+        font-size: 2.5rem;
+      }
+    }
   }
 `
 
