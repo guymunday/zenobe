@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import ButtonInvert from "../ButtonInvert"
 import Wrapper from "../Wrapper"
+import { motion, useAnimation } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
-const SecondSection = styled.section`
+const SecondSection = styled(motion.section)`
   width: 100%;
   padding: 100px 0;
   @media only screen and (max-width: 600px) {
@@ -46,7 +48,43 @@ const SecondSection = styled.section`
 `
 
 const HomepageSecondSection = ({ data }) => {
-  console.log(data.allWpAcfPage.nodes[0].homepage)
+  const animationHeader = useAnimation()
+  const animationParagraph = useAnimation()
+  const animationButton = useAnimation()
+  const [featured, inView] = useInView({
+    triggerOnce: true,
+    rootMargin: "-300px",
+  })
+
+  useEffect(() => {
+    if (inView) {
+      const sequence = async () => {
+        await animationHeader.start({
+          opacity: 1,
+          x: 0,
+          transition: {
+            ease: [0.6, 0.05, -0.01, 0.9],
+            duration: 0.4,
+          },
+        })
+        await animationParagraph.start((i) => ({
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.4,
+            delay: i * 0.3,
+            ease: [0.6, 0.05, -0.01, 0.9],
+          },
+        }))
+        await animationButton.start({
+          opacity: 1,
+          scale: 1,
+        })
+      }
+      sequence()
+    }
+  }, [animationHeader, animationParagraph, animationButton, inView])
+
   const homepageHeroData =
     data.allWpAcfPage.nodes[0].homepage.whiteBackgroundCopy
 
@@ -55,13 +93,35 @@ const HomepageSecondSection = ({ data }) => {
   return (
     <SecondSection>
       <Wrapper>
-        <div dangerouslySetInnerHTML={{ __html: heading }} />
+        <motion.div
+          dangerouslySetInnerHTML={{ __html: heading }}
+          ref={featured}
+          animate={animationHeader}
+          initial={{ opacity: 0, x: -200 }}
+        />
         <div className="inner-flex">
-          <p>{homepageHeroData.paragraph1}</p>
-          <p>{homepageHeroData.paragraph2}</p>
+          <motion.p
+            custom={0}
+            animate={animationParagraph}
+            initial={{ y: -100, opacity: 0 }}
+          >
+            {homepageHeroData.paragraph1}
+          </motion.p>
+          <motion.p
+            custom={1}
+            animate={animationParagraph}
+            initial={{ y: -100, opacity: 0 }}
+          >
+            {homepageHeroData.paragraph2}
+          </motion.p>
         </div>
-
-        <ButtonInvert text="Find out more" link="" />
+        <motion.span
+          style={{ display: "inline-block" }}
+          animate={animationButton}
+          initial={{ scale: 0.3, opacity: 0 }}
+        >
+          <ButtonInvert text="Find out more" link="" />
+        </motion.span>
       </Wrapper>
     </SecondSection>
   )

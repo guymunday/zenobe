@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
     --electric: #32DBFF;
     --glow: #F86906;
     transition: 0.2s ease all;
+    scroll-behavior: smooth;
   }
   body {
     font-family: Work sans, sans-serif;
@@ -33,10 +34,6 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.15;
     color: var(--glow);
     }
-  }
-  h1 {
-    font-size: 3rem;
-    
   }
   .glow {
     color: var(--glow);

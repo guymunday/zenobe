@@ -2,6 +2,7 @@ import React from "react"
 import styled from "styled-components"
 import BackgroundVideo from "../../components/BackgroundVideo"
 import Button from "../Button"
+import { useStaticQuery, graphql } from "gatsby"
 
 const TechSection = styled.section`
   background: var(--electric);
@@ -53,7 +54,24 @@ const TechSection = styled.section`
   }
 `
 
-const HomepageTechnologiesSection = ({ data }) => {
+const HomepageTechnologiesSection = () => {
+  const data = useStaticQuery(graphql`
+    {
+      allWpAcfPage(filter: { id: { eq: "cG9zdDo0NQ==" } }) {
+        nodes {
+          id
+          homepage {
+            technologiesSection {
+              paragraph
+              sectionTitle
+              video
+            }
+          }
+        }
+      }
+    }
+  `)
+
   const techSection = data.allWpAcfPage.nodes[0].homepage.technologiesSection
   console.log(techSection)
   return (

@@ -21,6 +21,8 @@ exports.createPages = async ({ graphql, actions }) => {
     "./src/templates/single/featurePage.js"
   )
 
+  const jobsTemplate = require.resolve("./src/templates/single/jobs.js")
+
   const result = await wrapper(
     graphql(`
       {
@@ -34,6 +36,15 @@ exports.createPages = async ({ graphql, actions }) => {
           }
         }
         allWpPost {
+          edges {
+            node {
+              title
+              slug
+              id
+            }
+          }
+        }
+        allWpJob {
           edges {
             node {
               title
@@ -58,6 +69,7 @@ exports.createPages = async ({ graphql, actions }) => {
   const caseStudyList = result.data.allWpCaseStudy.edges
   const newsList = result.data.allWpPost.edges
   const featureList = result.data.allWpFeaturePage.edges
+  const jobList = result.data.allWpJob.edges
 
   caseStudyList.forEach((edge) => {
     createPage({
@@ -73,6 +85,16 @@ exports.createPages = async ({ graphql, actions }) => {
     createPage({
       path: `/news/${edge.node.slug}`,
       component: newsTemplate,
+      context: {
+        id: edge.node.id,
+      },
+    })
+  })
+
+  jobList.forEach((edge) => {
+    createPage({
+      path: `/careers/${edge.node.slug}`,
+      component: jobsTemplate,
       context: {
         id: edge.node.id,
       },

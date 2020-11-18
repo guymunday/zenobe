@@ -1,6 +1,7 @@
 import React from "react"
 import styled from "styled-components"
 import { Link } from "gatsby"
+import { motion } from "framer-motion"
 
 const ButtonStyles = styled.button`
   padding: 10px 40px;
@@ -25,11 +26,11 @@ const ButtonStyles = styled.button`
   }
 `
 
-const ButtonInvert = ({ link, text }) => {
+const ButtonInvert = ({ link, text, varAni }) => {
   return (
-    <Link to={link}>
-      <ButtonStyles>{text}</ButtonStyles>
-    </Link>
+      <Link to={link}>
+        <ButtonStyles>{text}</ButtonStyles>
+      </Link>
   )
 }
 

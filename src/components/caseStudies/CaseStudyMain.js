@@ -16,6 +16,7 @@ const CaseStudyContainer = styled.section`
       z-index: 5;
       @media only screen and (max-width: 1100px) {
         max-width: 450px;
+        padding: 100px 20px 0 20px;
       }
       @media only screen and (max-width: 768px) {
         max-width: 100%;
@@ -95,7 +96,7 @@ const CaseStudyMain = ({ data }) => {
   const context = data.page.caseStudy.context
   const approach = data.page.caseStudy.approach
   return (
-    <CaseStudyContainer>
+    <CaseStudyContainer id="casestudy">
       <div className="context-outer">
         <div className="context-inner">
           <h2>Case Study</h2>

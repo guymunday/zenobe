@@ -3,9 +3,9 @@ import { graphql, useStaticQuery, Link } from "gatsby"
 import Img from "gatsby-image"
 import styled from "styled-components"
 import Slider from "react-slick"
-// slider css
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
+import "../slick-carousel/slick/slick.css"
+import "../slick-carousel/slick/slick-theme.css"
+import { motion } from "framer-motion"
 
 const NewsSection = styled.section`
   width: 100%;
@@ -13,7 +13,7 @@ const NewsSection = styled.section`
   margin: auto;
   padding: 0 30px 50px 30px;
 `
-const SliderThumb = styled.div`
+const SliderThumb = styled(motion.div)`
   padding: 0 20px;
   span {
     display: block;
@@ -100,13 +100,14 @@ const NewsThumbnails = () => {
         breakpoint: 1024,
         settings: {
           slidesToShow: 3,
+          slidesToScroll: 2,
         },
       },
       {
         breakpoint: 768,
         settings: {
           slidesToShow: 2,
-          initialSlide: 2,
+          slidesToScroll: 2,
         },
       },
       {

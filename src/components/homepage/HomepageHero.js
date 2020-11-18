@@ -3,13 +3,15 @@ import styled from "styled-components"
 import BackgroundVideo from "../BackgroundVideo"
 import Button from "../Button"
 import Wrapper from "../Wrapper"
+import { motion } from "framer-motion"
 
 const HeroSection = styled.section`
   width: 100%;
-  color: white;
+  color: var(--white);
   position: relative;
   object-fit: cover;
   overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.6);
   .hero-section-inner {
     width: 100%;
     display: flex;
@@ -37,12 +39,52 @@ const HeroSection = styled.section`
       display: flex;
       flex-direction: column;
       margin-top: 50px;
-      a:nth-child(2) {
+      div:nth-child(2) {
         margin: 15px 0;
       }
     }
   }
 `
+
+const headingAni = {
+  hidden: {
+    opacity: 0,
+    x: -100,
+  },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: 0.8,
+      duration: 0.6,
+      ease: [0.6, 0.05, -0.01, 0.9],
+    },
+  },
+}
+
+const container = {
+  hidden: { opacity: 0, x: -100 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      staggerChildren: 0.3,
+      delayChildren: 1.3,
+      ease: [0.6, 0.05, -0.01, 0.9],
+    },
+  },
+}
+
+const listItem = {
+  hidden: { opacity: 0, x: -100 },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      ease: [0.6, 0.05, -0.01, 0.9],
+    },
+  },
+}
 
 const HomepageHero = ({ data }) => {
   const [videoOne, setVideoOne] = useState(false)
@@ -61,22 +103,29 @@ const HomepageHero = ({ data }) => {
         <div>{homepageHeroData.electricVehiclesVideo}</div> */}
         <div className="hero-section-inner">
           <Wrapper>
-            <div dangerouslySetInnerHTML={{ __html: heading }} />
-            <nav>
+            <motion.div
+              dangerouslySetInnerHTML={{ __html: heading }}
+              variants={headingAni}
+              initial="hidden"
+              animate="show"
+            />
+            <motion.nav variants={container} initial="hidden" animate="show">
               <Button
-                onMouseEnter={() => setVideoOne(!videoOne)}
                 link="/electric-vehicles"
                 text="Electric Vehicles"
+                varAni={listItem}
               />
               <Button
                 link="/commercial-and-industrial"
                 text="Commercial & Industrial"
+                varAni={listItem}
               />
               <Button
                 link="/network-infrastructure"
                 text="Network Infrastructure"
+                varAni={listItem}
               />
-            </nav>
+            </motion.nav>
           </Wrapper>
         </div>
       </HeroSection>

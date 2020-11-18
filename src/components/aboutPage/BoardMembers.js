@@ -5,15 +5,16 @@ const BoardMembers = ({ board }) => {
   console.log(board)
   return board.edges.map((boardMemember) => {
     return (
-      <>
-        <div>{boardMemember.node.title}</div>
+      <div className="team-thumbnail">
         <Img
           fluid={
             boardMemember.node.team_acf.photo.localFile.childImageSharp.fluid
           }
-          alt="board-member"
+          alt={boardMemember.node.title}
         />
-      </>
+        <h2>{boardMemember.node.title}</h2>
+        <p>{boardMemember.node.team_acf.jobTitle}</p>
+      </div>
     )
   })
 }

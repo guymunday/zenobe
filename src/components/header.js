@@ -3,8 +3,9 @@ import Menu from "./Menu"
 import Logo from "./Logo"
 import styled from "styled-components"
 import { Link } from "gatsby"
+import { motion } from "framer-motion"
 
-const HeaderContainer = styled.header`
+const HeaderContainer = styled(motion.header)`
   display: flex;
   width: 100%;
   padding: 40px 20px 80px 20px;
@@ -49,7 +50,7 @@ const HeaderContainer = styled.header`
 
 const Header = () => {
   return (
-    <HeaderContainer>
+    <HeaderContainer initial={{ y: -100 }} animate={{ y: 0 }}>
       <Link to="/">
         <Logo />
       </Link>
