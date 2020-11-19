@@ -34,6 +34,7 @@ export const NewHeroSection = styled.section`
       order: 2;
     }
     h1 {
+      font-size: 3rem;
       @media only screen and (max-width: 1024px) {
         font-size: 2.5rem;
       }

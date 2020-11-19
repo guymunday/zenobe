@@ -1,11 +1,12 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { graphql, useStaticQuery, Link } from "gatsby"
 import Img from "gatsby-image"
 import styled from "styled-components"
 import Slider from "react-slick"
 import "../slick-carousel/slick/slick.css"
 import "../slick-carousel/slick/slick-theme.css"
-import { motion } from "framer-motion"
+import { motion, useAnimation } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 const NewsSection = styled.section`
   width: 100%;
@@ -58,6 +59,34 @@ const SliderThumb = styled(motion.div)`
 `
 
 const NewsThumbnails = () => {
+  const animationThumbnail = useAnimation()
+  const animationButton = useAnimation()
+  const [featured, inView] = useInView({
+    triggerOnce: true,
+    rootMargin: "-200px",
+  })
+
+  useEffect(() => {
+    if (inView) {
+      const sequence = async () => {
+        await animationThumbnail.start((i) => ({
+          opacity: 1,
+          x: 0,
+          transition: {
+            duration: 0.3,
+            delay: i * 0.2,
+            ease: [0.6, 0.05, -0.01, 0.9],
+          },
+        }))
+        await animationButton.start({
+          opacity: 1,
+          scale: 1,
+        })
+      }
+      sequence()
+    }
+  }, [animationThumbnail, animationButton, inView])
+
   const newsData = useStaticQuery(graphql`
     {
       allWpPost(limit: 4) {
@@ -121,11 +150,16 @@ const NewsThumbnails = () => {
 
   return (
     <>
-      <NewsSection>
+      <NewsSection ref={featured}>
         <Slider {...settings} style={{ zIndex: 9 }}>
-          {newsData.allWpPost.edges.map((edge) => {
+          {newsData.allWpPost.edges.map((edge, i) => {
             return (
-              <SliderThumb key={edge.node.id}>
+              <SliderThumb
+                key={edge.node.id}
+                custom={i}
+                animate={animationThumbnail}
+                initial={{ x: 500, opacity: 0 }}
+              >
                 <span></span>
                 <div className="image">
                   <Img
@@ -140,7 +174,13 @@ const NewsThumbnails = () => {
                   <h3>{edge.node.title}</h3>
                   <p>{edge.node.news_excerpt.excerpt}</p>
                   <span></span>
-                  <div class="button">+</div>
+                  <motion.div
+                    className="button"
+                    animate={animationButton}
+                    initial={{ scale: 0.3, opacity: 0 }}
+                  >
+                    +
+                  </motion.div>
                 </Link>
               </SliderThumb>
             )

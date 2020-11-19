@@ -23,10 +23,6 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const jobsTemplate = require.resolve("./src/templates/single/jobs.js")
 
-  const caseStudyPage = require.resolve("./src/templates/caseStudyList.js")
-
-  const newsPage = require.resolve("./src/templates/newsList.js")
-
   const result = await wrapper(
     graphql(`
       {
@@ -85,41 +81,12 @@ exports.createPages = async ({ graphql, actions }) => {
     })
   })
 
-  const postsPerPage = 11
-  const numPages = Math.ceil(caseStudyList.length / postsPerPage)
-
-  Array.from({ length: numPages }).forEach((_, i) => {
-    createPage({
-      path: i === 0 ? `/case-studies` : `/case-studies/${i + 1}`,
-      component: caseStudyPage,
-      context: {
-        limit: postsPerPage,
-        skip: i * postsPerPage,
-        numPages,
-        currentPage: i + 1,
-      },
-    })
-  })
-
   newsList.forEach((edge) => {
     createPage({
       path: `/news/${edge.node.slug}`,
       component: newsTemplate,
       context: {
         id: edge.node.id,
-      },
-    })
-  })
-
-  Array.from({ length: numPages }).forEach((_, i) => {
-    createPage({
-      path: i === 0 ? `/news` : `/news/${i + 1}`,
-      component: newsPage,
-      context: {
-        limit: postsPerPage,
-        skip: i * postsPerPage,
-        numPages,
-        currentPage: i + 1,
       },
     })
   })

@@ -5,6 +5,7 @@ import Img from "gatsby-image"
 import Slider from "react-slick"
 import "../slick-carousel/slick/slick.css"
 import "../slick-carousel/slick/slick-theme.css"
+import { useMediaQuery } from "../hooks/useMediaQuery"
 
 const CareerSection = styled.section`
   padding: 50px;
@@ -17,10 +18,16 @@ const CareerSection = styled.section`
     background: var(--electric);
     .career-inner-flex {
       display: flex;
+      @media only screen and (max-width: 768px) {
+        flex-direction: column;
+      }
       .gatsby-image-wrapper {
         width: 70%;
         margin-left: -10%;
         margin-bottom: -10%;
+        @media only screen and (max-width: 768px) {
+          display: none;
+        }
       }
     }
   }
@@ -57,6 +64,8 @@ const CareerThumb = styled.div`
 `
 
 const Careers = () => {
+  const isSmall = useMediaQuery("(min-width: 768px)")
+
   const jobs = useStaticQuery(graphql`
     {
       allWpJob {
@@ -92,6 +101,18 @@ const Careers = () => {
     slidesToScroll: 1,
     responsive: [
       {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
         breakpoint: 500,
         settings: {
           slidesToShow: 1,
@@ -112,7 +133,12 @@ const Careers = () => {
             }
             alt="careers"
           />
-          <Slider {...settings} style={{ width: "50%" }}>
+          <Slider
+            {...settings}
+            style={{
+              width: isSmall ? "50%" : "100%",
+            }}
+          >
             {jobs.allWpJob.edges.map((job) => {
               return (
                 <CareerThumb key={job.node.id}>

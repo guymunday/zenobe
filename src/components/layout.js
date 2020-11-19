@@ -14,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
     --glow: #F86906;
     transition: 0.2s ease all;
     scroll-behavior: smooth;
+    
   }
   body {
     font-family: Work sans, sans-serif;
@@ -50,6 +51,12 @@ const Layout = ({ children }) => (
     <GlobalStyle />
     {(typeof window !== "undefined" &&
       window.location.pathname === "/about/") ||
+    (typeof window !== "undefined" &&
+      window.location.pathname === "/network-infrastructure/") ||
+    (typeof window !== "undefined" &&
+      window.location.pathname === "/commercial-and-industrial/") ||
+    (typeof window !== "undefined" &&
+      window.location.pathname === "/electric-vehicles/") ||
     (typeof window !== "undefined" && window.location.pathname === "/") ? (
       <Header />
     ) : (

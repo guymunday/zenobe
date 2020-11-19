@@ -50,7 +50,16 @@ const HeaderContainer = styled(motion.header)`
 
 const Header = () => {
   return (
-    <HeaderContainer initial={{ y: -100 }} animate={{ y: 0 }}>
+    <HeaderContainer
+      initial={{ y: -100 }}
+      animate={{
+        y: 0,
+        transition: {
+          duration: 0.3,
+          ease: [0.6, 0.05, -0.01, 0.9],
+        },
+      }}
+    >
       <Link to="/">
         <Logo />
       </Link>

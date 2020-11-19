@@ -21,16 +21,19 @@ const ButtonStyles = styled.button`
   }
   ::before {
     content: "+";
+    display: inline-block;
     margin-right: 10px;
-    transform: scale(1.2);
+    color: var(--glow);
+    transform: scale(1.3);
+    line-height: 0.5;
   }
 `
 
 const ButtonInvert = ({ link, text, varAni }) => {
   return (
-      <Link to={link}>
-        <ButtonStyles>{text}</ButtonStyles>
-      </Link>
+    <Link to={link}>
+      <ButtonStyles>{text}</ButtonStyles>
+    </Link>
   )
 }
 

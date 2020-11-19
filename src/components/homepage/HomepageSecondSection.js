@@ -53,7 +53,7 @@ const HomepageSecondSection = ({ data }) => {
   const animationButton = useAnimation()
   const [featured, inView] = useInView({
     triggerOnce: true,
-    rootMargin: "-300px",
+    rootMargin: "-200px",
   })
 
   useEffect(() => {
@@ -91,11 +91,10 @@ const HomepageSecondSection = ({ data }) => {
   const heading = homepageHeroData.sectionTitle
 
   return (
-    <SecondSection>
+    <SecondSection ref={featured}>
       <Wrapper>
         <motion.div
           dangerouslySetInnerHTML={{ __html: heading }}
-          ref={featured}
           animate={animationHeader}
           initial={{ opacity: 0, x: -200 }}
         />

@@ -8,6 +8,20 @@ import VideoHero from "../components/VideoHero"
 import styled from "styled-components"
 import EventAnnouncement from "../components/EventAnnouncement"
 import Careers from "../components/Careers"
+import ReactPlayer from "react-player"
+import Wrapper from "../components/Wrapper"
+import EmailSignup from "../components/EmailSignup"
+
+const AboutStyles = styled.div`
+  h3 {
+    font-size: 3rem;
+    margin-top: 20px;
+  }
+  .paragraphs {
+    max-width: 675px;
+    margin: 30px 0 60px;
+  }
+`
 
 const FlexBox = styled.div`
   display: flex;
@@ -15,11 +29,25 @@ const FlexBox = styled.div`
   width: 100%;
   max-width: 1080px;
   margin: 0 auto;
+  padding: 10px 10px 50px 10px;
   div {
     width: 25%;
-    padding: 10px;
+    padding: 10px 10px 30px 10px;
+    @media only screen and (max-width: 768px) {
+      width: 33%;
+    }
+    @media only screen and (max-width: 500px) {
+      width: 50%;
+    }
     .gatsby-image-wrapper {
       width: 100%;
+    }
+    h2 {
+      font-size: 1rem;
+      margin: 1rem 0 0.5rem 0;
+    }
+    p {
+      font-size: 0.8rem;
     }
   }
 `
@@ -29,22 +57,38 @@ const About = ({ data: { board, team, page, jobs } }) => {
   console.log(aboutData)
   return (
     <Layout>
-      <VideoHero data={aboutData.hero_section} title="About" />
-      <h3>Our story</h3>
-      <div dangerouslySetInnerHTML={{ __html: aboutData.about.ourStory }} />
-      <h3>Our Team</h3>
-      <div dangerouslySetInnerHTML={{ __html: aboutData.about.ourTeam }} />
-      <h3>The Board</h3>
-      <FlexBox>
-        <BoardMembers board={board} />
-      </FlexBox>
-      <h3>The Team</h3>
-      <FlexBox>
-        <TeamMembers team={team} />
-      </FlexBox>
+      <AboutStyles>
+        <VideoHero data={aboutData.hero_section} title="About" />
+        <Wrapper>
+          <h3>Our story</h3>
+          <div
+            className="paragraphs"
+            dangerouslySetInnerHTML={{ __html: aboutData.about.ourStory }}
+          />
+          <ReactPlayer url={aboutData.about.aboutVideo} width="100%" />
+          <h3>Our Team</h3>
+          <div
+            className="paragraphs"
+            dangerouslySetInnerHTML={{ __html: aboutData.about.ourTeam }}
+          />
+          <h3>The Board</h3>
+        </Wrapper>
+        <FlexBox>
+          <BoardMembers board={board} />
+        </FlexBox>
+        <div style={{ background: "rgba(50,219,255,0.2)" }}>
+          <Wrapper>
+            <h3>The Team</h3>
+          </Wrapper>
+          <FlexBox>
+            <TeamMembers team={team} />
+          </FlexBox>
+        </div>
+      </AboutStyles>
       {jobs ? <Careers /> : null}
       <EventAnnouncement />
       <NewsThumbnails />
+      <EmailSignup />
     </Layout>
   )
 }

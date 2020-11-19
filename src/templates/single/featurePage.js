@@ -100,6 +100,7 @@ const FeaturePageSection = styled.section`
     margin: auto;
     @media only screen and (max-width: 1024px) {
       flex-direction: column;
+      padding: 0 20px;
     }
     .image-1 {
       width: 60%;
@@ -110,6 +111,7 @@ const FeaturePageSection = styled.section`
       @media only screen and (max-width: 1024px) {
         margin: 0 0 20px 0;
         width: 100%;
+        height: auto;
       }
     }
     .image-2 {
@@ -121,6 +123,7 @@ const FeaturePageSection = styled.section`
       @media only screen and (max-width: 1024px) {
         margin: 0;
         width: 100%;
+        height: auto;
       }
     }
   }

@@ -9,6 +9,7 @@ const VideoHeroSection = styled.section`
   position: relative;
   object-fit: cover;
   overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.7);
   .hero-inner {
     width: 100%;
     display: flex;

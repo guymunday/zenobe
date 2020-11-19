@@ -21,8 +21,11 @@ const ButtonStyles = styled.button`
   }
   ::before {
     content: "+";
-    color: var(--glow);
+    display: inline-block;
     margin-right: 10px;
+    color: var(--glow);
+    transform: scale(1.3);
+    line-height: 0.5;
   }
 `
 

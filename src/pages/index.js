@@ -18,7 +18,7 @@ const Homepage = ({ data }) => {
         <HomepageSecondSection data={data} />
         <HomepageCasestudySection />
         <HomepageTechnologiesSection data={data} />
-        <HomepageAboutSection />
+        <HomepageAboutSection data={data.about} />
         <EventAnnouncment data={data} />
         <NewsThumbnails />
         <EmailSignup />
@@ -72,7 +72,7 @@ export const query = graphql`
         }
       }
     }
-    page: allWpAcfPage(filter: { id: { eq: "cG9zdDoxNDI=" } }) {
+    about: allWpAcfPage(filter: { id: { eq: "cG9zdDoxNDI=" } }) {
       nodes {
         about {
           aboutVideo

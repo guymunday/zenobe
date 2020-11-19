@@ -1,9 +1,11 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useStaticQuery, graphql, Link } from "gatsby"
 import styled from "styled-components"
 import Slider from "react-slick"
 import Img from "gatsby-image"
 import Button from "../Button"
+import { motion, useAnimation } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 // slider css
 import "../../slick-carousel/slick/slick.css"
 import "../../slick-carousel/slick/slick-theme.css"
@@ -69,6 +71,57 @@ const CaseStudySlider = styled.div`
 `
 
 const HomepageCasestudySection = () => {
+  const animationTitle = useAnimation()
+  const animationHeader = useAnimation()
+  const animationParagraph = useAnimation()
+  const animationButton = useAnimation()
+  const [featured, inView] = useInView({
+    triggerOnce: true,
+    rootMargin: "-200px",
+  })
+
+  useEffect(() => {
+    if (inView) {
+      const sequence = async () => {
+        await animationTitle.start({
+          opacity: 1,
+          x: 0,
+          transition: {
+            ease: [0.6, 0.05, -0.01, 0.9],
+            duration: 0.4,
+          },
+        })
+        await animationHeader.start({
+          opacity: 1,
+          x: 0,
+          transition: {
+            ease: [0.6, 0.05, -0.01, 0.9],
+            duration: 0.4,
+          },
+        })
+        await animationParagraph.start({
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.4,
+            ease: [0.6, 0.05, -0.01, 0.9],
+          },
+        })
+        await animationButton.start({
+          opacity: 1,
+          scale: 1,
+        })
+      }
+      sequence()
+    }
+  }, [
+    animationTitle,
+    animationHeader,
+    animationParagraph,
+    animationButton,
+    inView,
+  ])
+
   const caseStudyData = useStaticQuery(graphql`
     {
       allWpCaseStudy(limit: 3) {
@@ -105,11 +158,11 @@ const HomepageCasestudySection = () => {
     slidesToScroll: 1,
     adaptiveHeight: true,
     autoplay: true,
-    autoplaySpeed: 4000,
-    fade: true,
+    autoplaySpeed: 3000,
+    // fade: true,
   }
   return (
-    <>
+    <div ref={featured} id="tech">
       <Slider {...settings} style={{ zIndex: 9 }}>
         {caseStudyData.allWpCaseStudy.edges.map((edge) => {
           return (
@@ -126,15 +179,34 @@ const HomepageCasestudySection = () => {
                 </div>
                 <div className="case-study-outer">
                   <div className="case-study-inner">
-                    <h2>Case Study</h2>
-                    <Link to={`/case-studies/${edge.node.slug}`}>
-                      <h3>{edge.node.title}</h3>
-                      <p>We should incluide an excerpt here</p>
-                    </Link>
-                    <Button
-                      text="See case study"
-                      link={`/case-studies/${edge.node.slug}`}
-                    />
+                    <motion.h2
+                      animate={animationTitle}
+                      initial={{ opacity: 0, x: 200 }}
+                    >
+                      Case Study
+                    </motion.h2>
+                    <motion.h3
+                      animate={animationHeader}
+                      initial={{ opacity: 0, x: 200 }}
+                    >
+                      {edge.node.title}
+                    </motion.h3>
+                    <motion.p
+                      animate={animationParagraph}
+                      initial={{ y: -100, opacity: 0 }}
+                    >
+                      We should incluide an excerpt here
+                    </motion.p>
+                    <motion.div
+                      style={{ display: "inline-block" }}
+                      animate={animationButton}
+                      initial={{ scale: 0.3, opacity: 0 }}
+                    >
+                      <Button
+                        text="See case study"
+                        link={`/case-studies/${edge.node.slug}`}
+                      />
+                    </motion.div>
                   </div>
                 </div>
               </CaseStudySlider>
@@ -142,7 +214,7 @@ const HomepageCasestudySection = () => {
           )
         })}
       </Slider>
-    </>
+    </div>
   )
 }
 

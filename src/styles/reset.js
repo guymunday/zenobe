@@ -4,7 +4,7 @@ const reset = css`
   *,
   *:before,
   *:after {
-    box-sizing: inherit;
+    box-sizing: border-box;
     padding: 0;
     margin: 0;
   }
