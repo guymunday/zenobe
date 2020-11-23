@@ -27,6 +27,10 @@ exports.createPages = async ({ graphql, actions }) => {
 
   const newsPage = require.resolve("./src/templates/newsList.js")
 
+  const eventTemplate = require.resolve("./src/templates/single/event.js")
+
+  const eventPage = require.resolve("./src/templates/eventList.js")
+
   const result = await wrapper(
     graphql(`
       {
@@ -57,6 +61,15 @@ exports.createPages = async ({ graphql, actions }) => {
             }
           }
         }
+        allWpEvent {
+          edges {
+            node {
+              id
+              title
+              slug
+            }
+          }
+        }
         allWpFeaturePage {
           edges {
             node {
@@ -74,6 +87,12 @@ exports.createPages = async ({ graphql, actions }) => {
   const newsList = result.data.allWpPost.edges
   const featureList = result.data.allWpFeaturePage.edges
   const jobList = result.data.allWpJob.edges
+  const events = result.data.allWpEvent.edges
+
+  const postsPerPage = 11
+  const numPages = Math.ceil(caseStudyList.length / postsPerPage)
+  const numPagesNews = Math.ceil(newsList.length / postsPerPage)
+  const numPagesEvents = Math.ceil(events.length / postsPerPage)
 
   caseStudyList.forEach((edge) => {
     createPage({
@@ -81,17 +100,39 @@ exports.createPages = async ({ graphql, actions }) => {
       component: caseStudyTemplate,
       context: {
         id: edge.node.id,
+        slug: edge.node.slug,
       },
     })
   })
-
-  const postsPerPage = 11
-  const numPages = Math.ceil(caseStudyList.length / postsPerPage)
 
   Array.from({ length: numPages }).forEach((_, i) => {
     createPage({
       path: i === 0 ? `/case-studies` : `/case-studies/${i + 1}`,
       component: caseStudyPage,
+      context: {
+        limit: postsPerPage,
+        skip: i * postsPerPage,
+        numPages,
+        currentPage: i + 1,
+      },
+    })
+  })
+
+  events.forEach((edge) => {
+    createPage({
+      path: `/events/${edge.node.slug}`,
+      component: eventTemplate,
+      context: {
+        id: edge.node.id,
+        slug: edge.node.slug,
+      },
+    })
+  })
+
+  Array.from({ length: numPagesEvents }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/events` : `/events/${i + 1}`,
+      component: eventPage,
       context: {
         limit: postsPerPage,
         skip: i * postsPerPage,
@@ -107,11 +148,12 @@ exports.createPages = async ({ graphql, actions }) => {
       component: newsTemplate,
       context: {
         id: edge.node.id,
+        slug: edge.node.slug,
       },
     })
   })
 
-  Array.from({ length: numPages }).forEach((_, i) => {
+  Array.from({ length: numPagesNews }).forEach((_, i) => {
     createPage({
       path: i === 0 ? `/news` : `/news/${i + 1}`,
       component: newsPage,
@@ -130,6 +172,7 @@ exports.createPages = async ({ graphql, actions }) => {
       component: jobsTemplate,
       context: {
         id: edge.node.id,
+        slug: edge.node.slug,
       },
     })
   })

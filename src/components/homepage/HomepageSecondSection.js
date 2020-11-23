@@ -52,8 +52,8 @@ const HomepageSecondSection = ({ data }) => {
   const animationParagraph = useAnimation()
   const animationButton = useAnimation()
   const [featured, inView] = useInView({
+    threshold: 0.5,
     triggerOnce: true,
-    rootMargin: "-200px",
   })
 
   useEffect(() => {
@@ -64,14 +64,14 @@ const HomepageSecondSection = ({ data }) => {
           x: 0,
           transition: {
             ease: [0.6, 0.05, -0.01, 0.9],
-            duration: 0.4,
+            duration: 0.5,
           },
         })
         await animationParagraph.start((i) => ({
           opacity: 1,
           y: 0,
           transition: {
-            duration: 0.4,
+            duration: 0.5,
             delay: i * 0.3,
             ease: [0.6, 0.05, -0.01, 0.9],
           },

@@ -7,7 +7,7 @@ import NewsThumbnails from "../components/NewsTumbnails"
 import VideoHero from "../components/VideoHero"
 import styled from "styled-components"
 import EventAnnouncement from "../components/EventAnnouncement"
-import Careers from "../components/Careers"
+import Careers from "../components/CareersSection"
 import ReactPlayer from "react-player"
 import Wrapper from "../components/Wrapper"
 import EmailSignup from "../components/EmailSignup"
@@ -52,6 +52,23 @@ const FlexBox = styled.div`
   }
 `
 
+export const IframeContainer = styled.div`
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    outline: none;
+    border: none;
+  }
+`
+
 const About = ({ data: { board, team, page, jobs } }) => {
   const aboutData = page.nodes[0]
   console.log(aboutData)
@@ -60,13 +77,16 @@ const About = ({ data: { board, team, page, jobs } }) => {
       <AboutStyles>
         <VideoHero data={aboutData.hero_section} title="About" />
         <Wrapper>
-          <h3>Our story</h3>
+          <h3 id="story">Our story</h3>
           <div
             className="paragraphs"
             dangerouslySetInnerHTML={{ __html: aboutData.about.ourStory }}
           />
-          <ReactPlayer url={aboutData.about.aboutVideo} width="100%" />
-          <h3>Our Team</h3>
+          {/* <ReactPlayer url={aboutData.about.aboutVideo} width="100%" /> */}
+          <IframeContainer>
+            <iframe src={aboutData.about.aboutVideo} />
+          </IframeContainer>
+          <h3 id="team">Our Team</h3>
           <div
             className="paragraphs"
             dangerouslySetInnerHTML={{ __html: aboutData.about.ourTeam }}

@@ -29,12 +29,12 @@ const ButtonStyles = styled.button`
   }
 `
 
-const ButtonInvert = ({ link, text, varAni }) => {
+const ButtonInvertEmail = ({ link, text }) => {
   return (
-    <Link to={link}>
+    <a href={link}>
       <ButtonStyles>{text}</ButtonStyles>
-    </Link>
+    </a>
   )
 }
 
-export default ButtonInvert
+export default ButtonInvertEmail

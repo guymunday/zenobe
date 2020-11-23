@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { graphql, Link } from "gatsby"
 import Layout from "../../components/Layout"
 import CaseStudyMain from "../../components/caseStudies/CaseStudyMain"
@@ -7,6 +7,10 @@ import Img from "gatsby-image"
 import BackgroundVideo from "../../components/BackgroundVideo"
 import Wrapper from "../../components/Wrapper"
 import HomepageTechnologiesSection from "../../components/homepage/HomepageTechnologiesSection"
+import FormDownload from "../../components/FormDownload"
+
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 const FeatureHero = styled.section`
   position: relative;
@@ -18,18 +22,18 @@ const FeatureHero = styled.section`
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 140px 0 0 0;
+    padding: 150px 0;
     justify-content: center;
     position: relative;
     @media only screen and (max-width: 1024px) {
-      padding: 110px 0 0 0;
+      padding: 110px 0;
     }
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
       padding: 90px 0 0 0;
     }
     @media only screen and (max-width: 600px) {
       padding: 80px 0 0 0;
-    }
+    } */
     h1 {
       max-width: 530px;
       font-size: 3rem;
@@ -55,7 +59,7 @@ const FeatureHero = styled.section`
   }
 `
 
-const BigCopy = styled.div`
+const BigCopy = styled(motion.div)`
   max-width: 1080px;
   margin: 100px auto;
   padding: 0 20px;
@@ -71,19 +75,17 @@ const BigCopy = styled.div`
 const FeaturePageSection = styled.section`
   width: 100%;
   max-width: 1000px;
-  margin: 280px auto 100px auto;
+  margin: 100px auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
   @media only screen and (max-width: 1024px) {
     margin: 100px auto 100px auto;
   }
   .services-container {
     max-width: 400px;
-    position: absolute;
-    left: 60%;
-    top: -20%;
+    align-self: flex-end;
     @media only screen and (max-width: 1024px) {
-      position: relative;
-      left: 0;
       padding: 20px;
     }
     h3 {
@@ -94,47 +96,39 @@ const FeaturePageSection = styled.section`
   .images {
     display: flex;
     pointer-events: none;
-    z-index: 0;
-    /* padding: 20px; */
-    max-width: 900px;
+    z-index: -1;
+    width: 100%;
     margin: auto;
-    @media only screen and (max-width: 1024px) {
+    padding: 0 20px;
+    @media only screen and (max-width: 800px) {
       flex-direction: column;
       padding: 0 20px;
     }
     .image-1 {
-      width: 60%;
-      height: 375px;
-      margin-bottom: 180px;
+      width: 57%;
+      height: auto;
       margin-right: -100px;
       object-fit: cover;
-      @media only screen and (max-width: 1024px) {
+      @media only screen and (max-width: 800px) {
         margin: 0 0 20px 0;
         width: 100%;
-        height: auto;
       }
     }
     .image-2 {
-      width: 60%;
+      width: 57%;
+      height: auto;
       margin-top: 150px;
-      margin-bottom: 300px;
-      height: 375px;
       object-fit: cover;
-      @media only screen and (max-width: 1024px) {
+      @media only screen and (max-width: 800px) {
         margin: 0;
         width: 100%;
-        height: auto;
       }
     }
   }
   .financing-container {
     max-width: 400px;
-    margin-top: -400px;
     @media only screen and (max-width: 1024px) {
-      position: relative;
-      left: 0;
       padding: 20px;
-      margin: 0;
     }
     h3 {
       font-size: 2rem;
@@ -144,6 +138,35 @@ const FeaturePageSection = styled.section`
 `
 
 const FeaturePage = ({ data }) => {
+  const [featured, inView] = useInView({
+    /* Optional options */
+    threshold: 0.5,
+    triggerOnce: true,
+  })
+
+  const [bigCopyRef, inViewTwo] = useInView({
+    /* Optional options */
+    threshold: 0.5,
+    triggerOnce: true,
+  })
+
+  const variants = {
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: {
+        duration: 0.9,
+        ease: [0.6, 0.05, -0.01, 0.9],
+      },
+    },
+    hidden: {
+      opacity: 0,
+      scale: 0.65,
+      y: 100,
+    },
+  }
+
   console.log(data)
   const bigCopy = data.main.featureContent.bigCopy
   const servicesCopy = data.main.featureContent.services.copy
@@ -156,10 +179,38 @@ const FeaturePage = ({ data }) => {
         />
         <Wrapper>
           <div className="hero-inner">
-            <h1>{data.main.title}</h1>
-            <p>{data.main.hero_section.heroSection.introParagraph}</p>
+            <motion.h1
+              initial={{ x: -100, opacity: 0 }}
+              animate={{
+                x: 0,
+                opacity: 1,
+                transition: {
+                  delay: 0.8,
+                  duration: 0.6,
+                  ease: [0.6, 0.05, -0.01, 0.9],
+                },
+              }}
+            >
+              {data.main.title}
+            </motion.h1>
+            <motion.p
+              initial={{ x: -100, opacity: 0 }}
+              animate={{
+                x: 0,
+                opacity: 1,
+                transition: {
+                  delay: 1.3,
+                  duration: 0.6,
+                  ease: [0.6, 0.05, -0.01, 0.9],
+                },
+              }}
+            >
+              {data.main.hero_section.heroSection.introParagraph}
+            </motion.p>
             <nav>
-              <div>On this page</div>
+              <div>
+                <span className="glow">↓</span> On this page
+              </div>
               <Link to="#services">Services</Link>
               <Link to="#financing">Financing</Link>
               <Link to="#tech">Technology</Link>
@@ -171,6 +222,18 @@ const FeaturePage = ({ data }) => {
 
       <BigCopy
         className="big-copy"
+        ref={bigCopyRef}
+        initial={{ y: "-100%", opacity: 0 }}
+        animate={
+          inViewTwo && {
+            y: 0,
+            opacity: 1,
+            transition: {
+              duration: 0.5,
+              ease: [0.6, 0.05, -0.01, 0.9],
+            },
+          }
+        }
         dangerouslySetInnerHTML={{ __html: bigCopy }}
       />
       <FeaturePageSection>
@@ -181,21 +244,31 @@ const FeaturePage = ({ data }) => {
             dangerouslySetInnerHTML={{ __html: servicesCopy }}
           />
         </div>
-        <div className="images">
-          <Img
+        <div className="images" ref={featured}>
+          <motion.div
             className="image-1"
-            fluid={
-              data.main.featureContent.services.image.localFile.childImageSharp
-                .fluid
-            }
-          />
-          <Img
+            animate={inView ? "visible" : "hidden"}
+            variants={variants}
+          >
+            <Img
+              fluid={
+                data.main.featureContent.services.image.localFile
+                  .childImageSharp.fluid
+              }
+            />
+          </motion.div>
+          <motion.div
             className="image-2"
-            fluid={
-              data.main.featureContent.financing.image.localFile.childImageSharp
-                .fluid
-            }
-          />
+            animate={inView ? "visible" : "hidden"}
+            variants={variants}
+          >
+            <Img
+              fluid={
+                data.main.featureContent.financing.image.localFile
+                  .childImageSharp.fluid
+              }
+            />
+          </motion.div>
         </div>
         <div className="financing-container" id="financing">
           <h3>Financing</h3>
@@ -207,6 +280,7 @@ const FeaturePage = ({ data }) => {
       </FeaturePageSection>
       <HomepageTechnologiesSection />
       {data.page ? <CaseStudyMain data={data} /> : null}
+      <FormDownload />
     </Layout>
   )
 }

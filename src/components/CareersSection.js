@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
 import { useStaticQuery, graphql, Link } from "gatsby"
 import Img from "gatsby-image"
@@ -6,6 +6,9 @@ import Slider from "react-slick"
 import "../slick-carousel/slick/slick.css"
 import "../slick-carousel/slick/slick-theme.css"
 import { useMediaQuery } from "../hooks/useMediaQuery"
+import ButtonInvert from "./ButtonInvert"
+import { motion, useAnimation } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 const CareerSection = styled.section`
   padding: 50px;
@@ -16,8 +19,10 @@ const CareerSection = styled.section`
   }
   .career-inner {
     background: var(--electric);
+    width: 100%;
     .career-inner-flex {
       display: flex;
+      width: 100%;
       @media only screen and (max-width: 768px) {
         flex-direction: column;
       }
@@ -29,6 +34,9 @@ const CareerSection = styled.section`
           display: none;
         }
       }
+    }
+    .slick-prev {
+      display: none !important;
     }
   }
 `
@@ -66,6 +74,28 @@ const CareerThumb = styled.div`
 const Careers = () => {
   const isSmall = useMediaQuery("(min-width: 768px)")
 
+  const animation = useAnimation()
+  const [featured, inView] = useInView({
+    threshold: 0.5,
+    triggerOnce: false,
+  })
+
+  useEffect(() => {
+    if (inView) {
+      const sequence = async () => {
+        await animation.start({
+          opacity: 1,
+          scale: 1,
+          transition: {
+            duration: 0.6,
+            ease: [0.6, 0.05, -0.01, 0.9],
+          },
+        })
+      }
+      sequence()
+    }
+  }, [animation, inView])
+
   const jobs = useStaticQuery(graphql`
     {
       allWpJob {
@@ -76,7 +106,9 @@ const Careers = () => {
             slug
             id
             careers {
+              sendCv
               shortDescription
+              emailLink
               image {
                 localFile {
                   childImageSharp {
@@ -93,11 +125,13 @@ const Careers = () => {
     }
   `)
 
+  console.log()
+
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: jobs.allWpJob.edges[1] ? 2 : 1,
     slidesToScroll: 1,
     responsive: [
       {
@@ -109,7 +143,7 @@ const Careers = () => {
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: jobs.allWpJob.edges[1] ? 2 : 1,
         },
       },
       {
@@ -122,9 +156,14 @@ const Careers = () => {
   }
 
   return (
-    <CareerSection>
-      <div className="career-inner">
-        <h3>Join the team</h3>
+    <CareerSection id="careers">
+      <motion.div
+        className="career-inner"
+        ref={featured}
+        animate={animation}
+        initial={{ scale: 0.8, opacity: 1 }}
+      >
+        <motion.h3>Join the team</motion.h3>
         <div className="career-inner-flex">
           <Img
             fluid={
@@ -152,9 +191,15 @@ const Careers = () => {
                 </CareerThumb>
               )
             })}
+            {jobs.allWpJob.edges[1] ? null : (
+              <CareerThumb>
+                <span></span>
+                <ButtonInvert link="/careers" text="Go to careers" />
+              </CareerThumb>
+            )}
           </Slider>
         </div>
-      </div>
+      </motion.div>
     </CareerSection>
   )
 }

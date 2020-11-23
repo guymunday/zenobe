@@ -1,5 +1,7 @@
-import React from "react"
+import React, { useEffect } from "react"
 import styled from "styled-components"
+import { motion, useAnimation } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 
 const EmailBanner = styled.section`
   background: var(--electric);
@@ -57,8 +59,11 @@ const EmailBanner = styled.section`
         }
         ::before {
           content: "+";
+          display: inline-block;
           margin-right: 10px;
-          transform: scale(1.2);
+          color: var(--glow);
+          transform: scale(1.3);
+          line-height: 0.5;
         }
       }
     }
@@ -70,22 +75,75 @@ function handleForm(event) {
 }
 
 const EmailSignup = () => {
+  const animationParagraph = useAnimation()
+  const animationForm = useAnimation()
+  const animationButton = useAnimation()
+  const [featured, inView] = useInView({
+    threshold: 0.5,
+    triggerOnce: true,
+  })
+
+  useEffect(() => {
+    if (inView) {
+      const sequence = async () => {
+        function start() {
+          animationParagraph.start({
+            opacity: 1,
+            y: 0,
+            transition: {
+              ease: [0.6, 0.05, -0.01, 0.9],
+              duration: 0.5,
+            },
+          })
+          animationForm.start({
+            opacity: 1,
+            y: 0,
+            transition: {
+              duration: 0.5,
+              ease: [0.6, 0.05, -0.01, 0.9],
+            },
+          })
+        }
+        start()
+        await animationButton.start({
+          opacity: 1,
+          scale: 1,
+        })
+      }
+      sequence()
+    }
+  }, [animationForm, animationParagraph, animationButton, inView])
+
   return (
-    <EmailBanner>
+    <EmailBanner ref={featured}>
       <div className="email-inner">
         <h3>Sign up to receive email news, promotions and information</h3>
-        <p>
+        <motion.p
+          animate={animationParagraph}
+          initial={{ y: -100, opacity: 0 }}
+        >
           You will be able to opt-out of these emails at any time. By signing
           up, you understand that the information you provide is subject to
           Google's privacy policy and terms. Opens in new window.
-        </p>
+        </motion.p>
         <form>
-          <input type="email" className="email" size="35" placeholder="Email" />
-          <input
+          <motion.input
+            type="email"
+            className="email"
+            size="35"
+            placeholder="Email"
+            style={{ display: "inline-block" }}
+            animate={animationForm}
+            initial={{ y: 100, opacity: 0 }}
+          />
+          <motion.input
             type="submit"
             value="Sign up"
             className="submit"
             onClick={handleForm}
+            style={{ display: "inline-block" }}
+            animate={animationButton}
+            initial={{ scale: 0.3, opacity: 0 }}
           />
         </form>
       </div>

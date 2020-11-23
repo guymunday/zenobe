@@ -25,7 +25,7 @@ const ButtonStyles = styled.button`
     margin-right: 10px;
     color: var(--glow);
     transform: scale(1.3);
-    line-height: 0.5;
+    line-height: 0.3;
   }
 `
 

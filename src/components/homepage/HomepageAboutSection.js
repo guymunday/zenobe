@@ -75,8 +75,8 @@ const HomepageAboutSection = ({ data }) => {
   const animationParagraph = useAnimation()
   const animationButton = useAnimation()
   const [featured, inView] = useInView({
-    triggerOnce: true,
-    rootMargin: "-200px",
+    threshold: 0.5,
+    triggerOnce: false,
   })
 
   useEffect(() => {
@@ -87,7 +87,7 @@ const HomepageAboutSection = ({ data }) => {
           x: 0,
           transition: {
             ease: [0.6, 0.05, -0.01, 0.9],
-            duration: 0.4,
+            duration: 0.5,
           },
         })
         await animationHeader.start({
@@ -95,14 +95,14 @@ const HomepageAboutSection = ({ data }) => {
           x: 0,
           transition: {
             ease: [0.6, 0.05, -0.01, 0.9],
-            duration: 0.4,
+            duration: 0.5,
           },
         })
         await animationParagraph.start({
           opacity: 1,
           y: 0,
           transition: {
-            duration: 0.4,
+            duration: 0.5,
             ease: [0.6, 0.05, -0.01, 0.9],
           },
         })

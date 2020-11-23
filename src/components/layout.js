@@ -1,11 +1,11 @@
 import React from "react"
 import Header from "./Header"
-import HeaderMain from "./HeaderMain"
+// import HeaderMain from "./HeaderMain"
 import Footer from "./Footer"
 import { createGlobalStyle } from "styled-components"
 import reset from "../styles/reset"
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
   ${reset}
   html {
     --black: #000000;
@@ -43,25 +43,21 @@ const GlobalStyle = createGlobalStyle`
     transition: 0.3s ease;
     text-decoration: none;
     color: #000;
+    :hover {
+      color: var(--glow);
+    }
+  }
+  p {
+    a {
+      text-decoration: underline;
+    }
   }
 `
 
 const Layout = ({ children }) => (
   <div style={{ position: "relative" }}>
     <GlobalStyle />
-    {(typeof window !== "undefined" &&
-      window.location.pathname === "/about/") ||
-    (typeof window !== "undefined" &&
-      window.location.pathname === "/network-infrastructure/") ||
-    (typeof window !== "undefined" &&
-      window.location.pathname === "/commercial-and-industrial/") ||
-    (typeof window !== "undefined" &&
-      window.location.pathname === "/electric-vehicles/") ||
-    (typeof window !== "undefined" && window.location.pathname === "/") ? (
-      <Header />
-    ) : (
-      <HeaderMain />
-    )}
+    <Header />
     <main>{children}</main>
     <Footer />
   </div>

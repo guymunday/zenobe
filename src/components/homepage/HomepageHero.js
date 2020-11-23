@@ -3,7 +3,7 @@ import styled from "styled-components"
 import BackgroundVideo from "../BackgroundVideo"
 import Button from "../Button"
 import Wrapper from "../Wrapper"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 
 const HeroSection = styled.section`
   width: 100%;
@@ -16,18 +16,18 @@ const HeroSection = styled.section`
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 140px 0;
+    padding: 150px 0;
     justify-content: center;
     position: relative;
     @media only screen and (max-width: 1024px) {
-      padding: 110px 0;
+      padding: 130px 0 100px 0;
     }
-    @media only screen and (max-width: 768px) {
+    /* @media only screen and (max-width: 768px) {
       padding: 90px 0;
     }
     @media only screen and (max-width: 600px) {
       padding: 80px 0;
-    }
+    } */
     h1 {
       max-width: 530px;
       font-size: 2.5rem;
@@ -87,7 +87,7 @@ const listItem = {
 }
 
 const HomepageHero = ({ data }) => {
-  const [videoOne, setVideoOne] = useState(false)
+  const [video, setVideo] = useState(0)
 
   const homepageHeroData = data.allWpAcfPage.nodes[0].homepage.homepageHero
   const heading = homepageHeroData.homepageHeroCopy
@@ -95,12 +95,32 @@ const HomepageHero = ({ data }) => {
   return (
     <>
       <HeroSection>
-        <BackgroundVideo
-          videoSource={homepageHeroData.commercialIndustrialVideo}
-        />
-        {/* <div>{homepageHeroData.commercialIndustrialVideo}</div>
-        <div>{homepageHeroData.networkInfrastructureVideo}</div>
-        <div>{homepageHeroData.electricVehiclesVideo}</div> */}
+        <AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: video === 2 ? 1 : 0 }}
+            exit={{ opacity: 0 }}
+          >
+            <BackgroundVideo
+              videoSource={homepageHeroData.networkInfrastructureVideo}
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: video === 1 ? 1 : 0 }}
+            exit={{ opacity: 0 }}
+          >
+            <BackgroundVideo
+              videoSource={homepageHeroData.electricVehiclesVideo}
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 1 }}
+            animate={{ opacity: video === 1 || video === 2 ? 0 : 1 }}
+          >
+            <BackgroundVideo videoSource="https://www.youtube.com/watch?v=YH8MCKNkBuY" />
+          </motion.div>
+        </AnimatePresence>
         <div className="hero-section-inner">
           <Wrapper>
             <motion.div
@@ -110,16 +130,28 @@ const HomepageHero = ({ data }) => {
               animate="show"
             />
             <motion.nav variants={container} initial="hidden" animate="show">
-              <Button
-                link="/electric-vehicles"
-                text="Electric Vehicles"
-                varAni={listItem}
-              />
-              <Button
-                link="/commercial-and-industrial"
-                text="Commercial & Industrial"
-                varAni={listItem}
-              />
+              <motion.div
+                onHoverStart={() => setVideo(1)}
+                onHoverEnd={() => setVideo(0)}
+                style={{ display: "inline-block" }}
+              >
+                <Button
+                  link="/electric-vehicles"
+                  text="Electric Vehicles"
+                  varAni={listItem}
+                />
+              </motion.div>
+              <motion.div
+                onHoverStart={() => setVideo(2)}
+                onHoverEnd={() => setVideo(0)}
+                style={{ display: "inline-block" }}
+              >
+                <Button
+                  link="/commercial-and-industrial"
+                  text="Commercial & Industrial"
+                  varAni={listItem}
+                />
+              </motion.div>
               <Button
                 link="/network-infrastructure"
                 text="Network Infrastructure"

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
 import styled from "styled-components"
 import BackgroundVideo from "../../components/BackgroundVideo"
-import Button from "../Button"
 import { useStaticQuery, graphql } from "gatsby"
 import { motion, useAnimation } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import ButtonInvert from "../ButtonInvert"
 
 const TechSection = styled.section`
   background: var(--electric);
@@ -62,8 +62,8 @@ const HomepageTechnologiesSection = () => {
   const animationParagraph = useAnimation()
   const animationButton = useAnimation()
   const [featured, inView] = useInView({
+    threshold: 0.5,
     triggerOnce: true,
-    rootMargin: "-200px",
   })
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const HomepageTechnologiesSection = () => {
           x: 0,
           transition: {
             ease: [0.6, 0.05, -0.01, 0.9],
-            duration: 0.4,
+            duration: 0.5,
           },
         })
         await animationHeader.start({
@@ -82,14 +82,14 @@ const HomepageTechnologiesSection = () => {
           x: 0,
           transition: {
             ease: [0.6, 0.05, -0.01, 0.9],
-            duration: 0.4,
+            duration: 0.5,
           },
         })
         await animationParagraph.start({
           opacity: 1,
           y: 0,
           transition: {
-            duration: 0.4,
+            duration: 0.5,
             ease: [0.6, 0.05, -0.01, 0.9],
           },
         })
@@ -129,9 +129,9 @@ const HomepageTechnologiesSection = () => {
   console.log(techSection)
   return (
     <TechSection ref={featured}>
-      <div className="video-container">
+      <motion.div className="video-container">
         <BackgroundVideo videoSource={techSection.video} />
-      </div>
+      </motion.div>
       <div className="copy-container">
         <motion.h2 animate={animationTitle} initial={{ opacity: 0, x: 200 }}>
           Network infastructure
@@ -150,7 +150,7 @@ const HomepageTechnologiesSection = () => {
           animate={animationButton}
           initial={{ scale: 0.3, opacity: 0 }}
         >
-          <Button link="/network-infrastructure" text="Find out more" />
+          <ButtonInvert link="/network-infrastructure" text="Find out more" />
         </motion.div>
       </div>
     </TechSection>

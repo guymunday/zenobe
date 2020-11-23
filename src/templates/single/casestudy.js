@@ -1,10 +1,11 @@
 import React from "react"
 import { graphql } from "gatsby"
-import Layout from "../../components/Layout"
+import LayoutAlt from "../../components/LayoutAlt"
 import Img from "gatsby-image"
 import styled from "styled-components"
 import { NewHeroSection } from "./news"
 import CaseStudyMain from "../../components/caseStudies/CaseStudyMain"
+import FormDownload from "../../components/FormDownload"
 
 const CaseStudyWrapper = styled.div`
   background: var(--black);
@@ -15,7 +16,7 @@ const CaseStudy = ({ data }) => {
   const title = data.page.caseStudy.heroSection.title
   const titleFallback = data.page.title
   return (
-    <Layout>
+    <LayoutAlt>
       <CaseStudyWrapper>
         <NewHeroSection>
           <div
@@ -32,7 +33,8 @@ const CaseStudy = ({ data }) => {
         </NewHeroSection>
         <CaseStudyMain data={data} />
       </CaseStudyWrapper>
-    </Layout>
+      <FormDownload />
+    </LayoutAlt>
   )
 }
 

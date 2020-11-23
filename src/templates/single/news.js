@@ -1,9 +1,10 @@
 import React from "react"
 import { graphql } from "gatsby"
-import Layout from "../../components/Layout"
+import LayoutAlt from "../../components/LayoutAlt"
 import SliceZoneNews from "../../components/caseStudies/SliceZoneNews"
 import Img from "gatsby-image"
 import styled from "styled-components"
+import NewsThumbnailsSingle from "../../components/NewsTumbnailsSingle"
 
 export const NewHeroSection = styled.section`
   display: flex;
@@ -39,6 +40,9 @@ export const NewHeroSection = styled.section`
         font-size: 2.5rem;
       }
     }
+    p {
+      margin: 1rem 0;
+    }
   }
 `
 
@@ -47,15 +51,18 @@ const News = ({ data }) => {
   const title = data.page.case_news.heroSection.title
   const heroImage =
     data.page.case_news.heroSection.heroImage.localFile.childImageSharp.fluid
-
+  console.log(data, "hello")
   return (
-    <Layout>
+    <LayoutAlt>
       <NewHeroSection>
         <div className="title" dangerouslySetInnerHTML={{ __html: title }} />
         <Img fluid={heroImage} />
       </NewHeroSection>
       <SliceZoneNews allSlices={data.page.case_news.content} />
-    </Layout>
+      <div style={{}}>
+        <NewsThumbnailsSingle newsData={data} />
+      </div>
+    </LayoutAlt>
   )
 }
 
@@ -97,6 +104,31 @@ export const query = graphql`
               childImageSharp {
                 fluid(maxWidth: 1200, quality: 90) {
                   ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    allWpPost(limit: 4, filter: { id: { ne: $id } }) {
+      edges {
+        node {
+          slug
+          title
+          id
+          news_excerpt {
+            excerpt
+          }
+          case_news {
+            heroSection {
+              heroImage {
+                localFile {
+                  childImageSharp {
+                    fluid(maxWidth: 1200, quality: 90) {
+                      ...GatsbyImageSharpFluid_withWebp
+                    }
+                  }
                 }
               }
             }

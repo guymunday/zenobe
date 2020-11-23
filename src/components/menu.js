@@ -1,10 +1,12 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link, useStaticQuery, graphql } from "gatsby"
 import { normalizePath } from "../utils/get-url-path"
 import styled from "styled-components"
+import Navigation from "./Navigation"
+import { AnimatePresence } from "framer-motion"
 
 const Nav = styled.nav`
-  a {
+  .hide-link {
     @media only screen and (max-width: 800px) {
       display: none;
     }
@@ -13,7 +15,6 @@ const Nav = styled.nav`
 
 const Hamburger = styled.button`
   width: 25px;
-  height: 15px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -31,7 +32,7 @@ const Hamburger = styled.button`
   }
   span {
     display: block;
-    height: 1px;
+    height: 2px;
     width: 100%;
     background: var(--white);
     transition: 0.3s ease;
@@ -39,6 +40,8 @@ const Hamburger = styled.button`
 `
 
 export default () => {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   const { wpMenu } = useStaticQuery(graphql`
     {
       wpMenu(slug: { eq: "menu" }) {
@@ -72,6 +75,7 @@ export default () => {
 
         return (
           <Link
+            className="hide-link"
             key={i + menuItem.url}
             // style={{ display: `block` }}
             to={normalizePath(path)}
@@ -80,11 +84,16 @@ export default () => {
           </Link>
         )
       })}
-      <Hamburger>
+      <Hamburger onClick={() => setMenuOpen(!menuOpen)}>
         <span></span>
-        <span></span>
+        <span style={{ margin: "6px 0" }}></span>
         <span></span>
       </Hamburger>
+      <AnimatePresence>
+        {menuOpen ? (
+          <Navigation menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
+        ) : null}
+      </AnimatePresence>
     </Nav>
   ) : null
 }

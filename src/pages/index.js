@@ -17,9 +17,9 @@ const Homepage = ({ data }) => {
         <HomepageHero data={data} />
         <HomepageSecondSection data={data} />
         <HomepageCasestudySection />
-        <HomepageTechnologiesSection data={data} />
+        <HomepageTechnologiesSection />
         <HomepageAboutSection data={data.about} />
-        <EventAnnouncment data={data} />
+        <EventAnnouncment />
         <NewsThumbnails />
         <EmailSignup />
       </Layout>
@@ -43,30 +43,6 @@ export const query = graphql`
           whiteBackgroundCopy {
             paragraph1
             paragraph2
-            sectionTitle
-          }
-          technologiesSection {
-            paragraph
-            sectionTitle
-            video
-          }
-          ourStorySection {
-            paragraph
-            sectionTitle
-            video
-          }
-          eventLaunchSection {
-            image {
-              localFile {
-                childImageSharp {
-                  fluid(maxWidth: 1200, quality: 90) {
-                    ...GatsbyImageSharpFluid_withWebp
-                  }
-                }
-              }
-            }
-            link
-            paragraph
             sectionTitle
           }
         }

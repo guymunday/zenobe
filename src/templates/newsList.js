@@ -1,6 +1,6 @@
 import React from "react"
 import { graphql, Link } from "gatsby"
-import Layout from "../components/Layout"
+import LayoutAlt from "../components/LayoutAlt"
 import Img from "gatsby-image"
 import ButtonInvert from "../components/ButtonInvert"
 import styled from "styled-components"
@@ -96,7 +96,7 @@ const NewsList = (props) => {
     currentPage - 1 === 1 ? "/news" : (currentPage - 1).toString()
   const nextPage = (currentPage + 1).toString()
   return (
-    <Layout>
+    <LayoutAlt>
       <BlackHeader>
         <h1>News</h1>
       </BlackHeader>
@@ -133,7 +133,7 @@ const NewsList = (props) => {
           Next Page →
         </Link>
       )}
-    </Layout>
+    </LayoutAlt>
   )
 }
 
