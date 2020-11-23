@@ -35,6 +35,9 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-plugin-styled-components`,
+    },
+    {
       resolve: `gatsby-source-wordpress-experimental`,
       options: {
         url: `http://34.249.174.105/graphql`,
