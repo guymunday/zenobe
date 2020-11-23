@@ -40,6 +40,9 @@
     "styled-components": "^5.2.1",
     "yarn": "^1.22.10"
   },
+  "resolutions": {
+    "sharp": "0.24.0"
+  },
   "devDependencies": {
     "prettier": "^2.1.2"
   }
